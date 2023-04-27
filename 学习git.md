@@ -2454,8 +2454,7 @@ git push -u githuborigin master
 
 但是经常容易忘记…
 
-### 方式三: 最多跑一次
-
+方式三: 最多跑一次
 不想着法偷懒的 coder 不是好程序员, 秉承 “最多跑一次” 的理念, 让我们试试怎么一次 push 统统搞定.
 
 在本地 git 仓库里找到这个文件 .git/config, 内容如下:
@@ -2517,6 +2516,7 @@ $ git remote --verbose
 origin  https://gitee.com/BlackThompson/white-hole.git (fetch)
 origin  https://gitee.com/BlackThompson/white-hole.git (push)
 origin  https://github.com/BlackThompson/WhiteHole (push)
+<<<<<<< HEAD
 # 以后约定这样
 giteeorigin     https://gitee.com/jzdxdd/gitskills.git (fetch)
 giteeorigin     https://gitee.com/jzdxdd/gitskills.git (push)
@@ -2525,6 +2525,8 @@ githuborigin    https://github.com/perfectddt/gitskills.git (push)
 origin  https://gitee.com/jzdxdd/gitskills.git (fetch)
 origin  https://gitee.com/jzdxdd/gitskills.git (push)
 origin  https://github.com/perfectddt/gitskills.git (push)
+=======
+>>>>>>> parent of a87d026 (giteeorigin + githuborigin sametime push->origin)
 ```
 
 注意看后面的 (fetch)(push), 相信你会明白点什么.
@@ -2571,3 +2573,290 @@ git remote add 远程库名 远程库地址
 [如何将 GitHub 项目导入码云？一步搞定！](https://blog.gitee.com/2018/06/05/github_to_gitee/)
 
 [如何同步多个 git 远程仓库](https://www.cnblogs.com/taadis/p/12170953.html)
+
+# Git 删除某一次提交
+
+## 一、 git reset
+
+-   git reset ：回滚到某次提交。
+-   git reset --soft：此次提交之后的修改会被退回到暂存区
+-   git reset --hard：此次提交之后的修改不做任何保留，git status 查看工作区是没有记录的。
+
+1.  回滚代码
+    如果需要删除的 commit 是最新的，那么可以通过 git reset 命令将代码回滚到之前某次提交的状态，但一定要将现有的代码做好备份，否则回滚之后这些变动都会消失。具体操作如下：
+
+
+
+```cpp
+1. git log // 查询要回滚的 commit_id
+2. git reset --hard commit_id // HEAD 就会指向此次的提交记录
+3. git push origin HEAD --force // 强制推送到远端
+```
+
+1.  误删恢复
+    如果回滚代码之后发现复制错了 commit_id，或者误删了某次 commit 记录，也可以通过下方代码恢复：
+
+
+
+```bash
+1. git relog // 复制要恢复操作的前面的 hash 值
+2. git reset --hard hash // 将 hash 换成要恢复的历史记录的 hash 值
+```
+
+1.  注意：删除中间某次提交时最好不要用 git reset 回退远程库，因为之后其他人提交代码时用 git pull 也会把自己的本地仓库回退到之前的版本，容易出现差错进而增加不必要的工作量。
+
+## 二、git rebase
+
+-   git rebase：当两个分支不在一条线上，需要执行 merge 操作时使用该命令。
+
+1.  撤销提交
+    如果中间的某次 commit 需要删除，可以通过 git rebase 命令实现，方法如下：
+
+```go
+1. git log // 查找要删除的前一次提交的 commit_id
+2. git rebase -i commit_id // 将 commit_id 替换成复制的值
+3. 进入 Vim 编辑模式，将要删除的 commit 前面的 `pick` 改成 `drop`
+4. 保存并退出 Vim
+```
+
+这样就完成了。
+
+1.  解决冲突
+    该命令执行时极有可能出现 reabase 冲突，可以通过以下方法解决：
+
+```csharp
+1. git diff // 查看冲突内容
+2. // 手动解决冲突（冲突位置已在文件中标明）
+3. git add <file> 或 git add -A // 添加
+4. git rebase --continue // 继续 rebase
+5. // 若还在 rebase 状态，则重复 2、3、4，直至 rebase 完成出现 applying 字样
+6. git push
+```
+
+## git rebase合并同一个分支的多个提交
+
+### 背景
+
+开发过程中，本地时长有无数次的commit，有时候我们想合并功能相同的commit，保持历史记录的干净整洁
+
+### git rebase
+
+
+
+```ruby
+# 从HEAD版本开始往过去数3个版本
+$ git rebase -i HEAD~3
+
+# 合并指定版本号（不包含此版本）
+$ git rebase -i [commitid]
+```
+
+参数说明：
+
+-   -i进入交互模式
+-   commitid 指定一个commitid，则交互界面中只会列出该commitid之后的所有提交，不包含它本身
+    交互界面命令解释：
+
+
+
+```objectivec
+# 命令:
+# p, pick <提交> = 使用提交
+# r, reword <提交> = 使用提交，但修改提交说明
+# e, edit <提交> = 使用提交，进入 shell 以便进行提交修补
+# s, squash <提交> = 使用提交，但融合到前一个提交
+# f, fixup <提交> = 类似于 "squash"，但丢弃提交说明日志
+# x, exec <命令> = 使用 shell 运行命令（此行剩余部分）
+# b, break = 在此处停止（使用 'git rebase --continue' 继续变基）
+# d, drop <提交> = 删除提交
+```
+
+### 操作步骤
+
+#### 查看log
+
+git的log是从上到下依次是从新到旧的提交
+
+
+
+```csharp
+$ git log --oneline
+291e427 update website
+8c8f3f4 update website
+1693a6f update clear-logs.sh version
+3759b84 update clear-logs.sh
+fc36a2a add links
+1d795e6 fix && update clear-logs.sh 0.0.2
+9536dab add dingtalk script
+3a51aaa fix shellcheck problem
+2db6ad3 add clear logs scripts
+e57b0e6 fix && add batch del
+17cb931 fix && add batch del
+cf7e875 add redis script
+fe4bbcb Initial commit
+```
+
+#### 编辑要合并的版本
+
+
+
+```python
+# 指定要合并版本号，cf7e875 不参与合并，进入 vi 编辑器
+$ git rebase -i cf7e875 
+pick 17cb931 fix && add batch del
+pick e57b0e6 fix && add batch del
+pick 2db6ad3 add clear logs scripts
+pick 3a51aaa fix shellcheck problem
+pick 9536dab add dingtalk script
+pick 1d795e6 fix && update clear-logs.sh 0.0.2
+pick fc36a2a add links
+pick 3759b84 update clear-logs.sh
+pick 1693a6f update clear-logs.sh version
+pick 8c8f3f4 update website
+
+# Rebase cf7e875..291e427 onto cf7e875 (10 commands)
+#
+# Commands:
+# p, pick = use commit
+# r, reword = use commit, but edit the commit message
+# e, edit = use commit, but stop for amending
+# s, squash = use commit, but meld into previous commit
+# f, fixup = like "squash", but discard this commit's log message
+# x, exec = run command (the rest of the line) using shell
+# d, drop = remove commit
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+# Note that empty commits are commented out
+```
+
+编辑commit信息
+
+
+
+```csharp
+# 把 e57b0e6 合并到 17cb931，不打印提交说明的日志；把 1693a6f 合并到 3759b84
+pick 17cb931 fix && add batch del
+f e57b0e6 fix && add batch del
+pick 2db6ad3 add clear logs scripts
+pick 3a51aaa fix shellcheck problem
+pick 9536dab add dingtalk script
+pick 1d795e6 fix && update clear-logs.sh 0.0.2
+pick fc36a2a add links
+pick 3759b84 update clear-logs.sh
+s 1693a6f update clear-logs.sh version
+pick 8c8f3f4 update website
+```
+
+然后`:wq`退出vim编辑器，此是就是注释界面
+
+
+
+```bash
+# This is a combination of 2 commits.
+# This is the 1st commit message:
+
+update clear-logs.sh
+
+# This is the commit message #2:
+
+update clear-logs.sh version
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Date:      Tue Jul 28 18:25:57 2020 +0800
+#
+# interactive rebase in progress; onto cf7e875
+# Last commands done (9 commands done):
+#    pick 3759b84 update clear-logs.sh
+#    s 1693a6f update clear-logs.sh version
+# Next command to do (1 remaining command):
+#    pick 8c8f3f4 update website
+# You are currently editing a commit while rebasing branch 'master' on 'cf7e875'.
+#
+# Changes to be committed:
+# modified:   logs/README.md
+# modified:   logs/clear-logs.sh
+```
+
+可以编辑commit message，保存并退出(`:wq`)，即可完成commit合并
+
+
+
+```css
+update clear-logs.sh
+```
+
+### 查看合并后的log
+
+
+
+```csharp
+$ git log --oneline
+47e7751 update website
+4c2316c update clear-logs.sh
+73f082e add links
+56adcf2 fix && update clear-logs.sh 0.0.2
+ebf3786 add dingtalk script
+6e81ea7 fix shellcheck problem
+64ca58f add clear logs scripts
+9327def fix && add batch del
+cf7e875 add redis script
+fe4bbcb Initial commit
+```
+
+然后就可以将整理过后的commit推送到远程了
+
+#### 冲突解决
+
+在 `git rebase` 的时候可能会出现冲突，此时就需要解决冲突
+错误提示信息：`git rebase -i resumeerror: could not apply ...`。
+
+```ruby
+# 查看冲突
+$ git status
+
+# 解决冲突之后，本地提交
+$ git add .
+
+# rebase 继续
+$ git rebase --continue
+```
+
+
+
+## 三、 git revert
+
+-   git revert：放弃某次提交。
+    git revert 之前的提交仍会保留在 git log 中，而此次撤销会做为一次新的提交。
+-   git revert -m：用于对 merge 节点的操作，-m 指定具体某个提交点。
+
+1.  撤销提交
+    要撤销中间某次提交时，使用 git revert 也是一个很好的选择：
+
+
+
+```cpp
+1. git log // 查找需要撤销的 commit_id
+2. git revert commit_id  // 撤销这次提交
+```
+
+1.  撤销 merge 节点提交
+    如果这次提交是 merge 节点的话，则需要加上 -m 指令：
+
+
+
+```csharp
+1. git revert commit_id -m 1 // 第一个提交点
+2. // 手动解决冲突
+3. git add -A
+4. git commit -m ""
+5. git revert commit_id -m 2 // 第二个提交点
+6. // 重复 2，3，4
+7. git push
+```
