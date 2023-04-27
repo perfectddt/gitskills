@@ -2376,7 +2376,7 @@ SourceTree使用Git命令执行操作，出错时，仍然需要阅读Git命令�
 
 
 
-## 同时将代码备份到Gitee和GitHub
+# 同时将代码备份到Gitee和GitHub
 
 如何将GitHub项目一步导入Gitee
 如何保持Gitee和GitHub同步更新
@@ -2454,7 +2454,8 @@ git push -u githuborigin master
 
 但是经常容易忘记…
 
-方式三: 最多跑一次
+### 方式三: 最多跑一次
+
 不想着法偷懒的 coder 不是好程序员, 秉承 “最多跑一次” 的理念, 让我们试试怎么一次 push 统统搞定.
 
 在本地 git 仓库里找到这个文件 .git/config, 内容如下:
@@ -2516,6 +2517,14 @@ $ git remote --verbose
 origin  https://gitee.com/BlackThompson/white-hole.git (fetch)
 origin  https://gitee.com/BlackThompson/white-hole.git (push)
 origin  https://github.com/BlackThompson/WhiteHole (push)
+# 以后约定这样
+giteeorigin     https://gitee.com/jzdxdd/gitskills.git (fetch)
+giteeorigin     https://gitee.com/jzdxdd/gitskills.git (push)
+githuborigin    https://gitee.com/jzdxdd/gitskills.git (fetch)
+githuborigin    https://gitee.com/jzdxdd/gitskills.git (push)
+origin  https://gitee.com/jzdxdd/gitskills.git (fetch)
+origin  https://gitee.com/jzdxdd/gitskills.git (push)
+origin  https://gitee.com/jzdxdd/gitskills.git (push)
 ```
 
 注意看后面的 (fetch)(push), 相信你会明白点什么.
