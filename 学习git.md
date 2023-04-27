@@ -353,11 +353,11 @@ $ ssh-keygen -t rsa -C "youremail@example.com"
 
 然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴`id_rsa.pub`文件的内容：
 
-![github-addkey-1](https://www.liaoxuefeng.com/files/attachments/919021379029408/0)
+![github-addkey-1](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272157634.png)
 
 点“Add Key”，你就应该看到已经添加的Key：
 
-![github-addkey-2](https://www.liaoxuefeng.com/files/attachments/919021395420160/0)
+![github-addkey-2](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272157988.png)
 
 最后友情提示，在GitHub上免费托管的Git仓库，任何人都可以看到喔（但只有你自己才能改）。所以，不要把敏感信息放进去。
 
@@ -370,11 +370,11 @@ $ ssh-keygen -t rsa -C "youremail@example.com"
 
 首先，登陆GitHub，然后，在右上角找到“Create a new repo”按钮，创建一个新的仓库：
 
-![github-create-repo-1](https://www.liaoxuefeng.com/files/attachments/919021631860000/0)
+![github-create-repo-1](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272157359.png)
 
 在Repository name填入`learngit`，其他保持默认设置，点击“Create repository”按钮，就成功地创建了一个新的Git仓库：
 
-![github-create-repo-2](https://www.liaoxuefeng.com/files/attachments/919021652277920/0)
+![github-create-repo-2](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272157426.png)
 
 目前，在GitHub上的这个`learngit`仓库还是空的，GitHub告诉我们，可以从这个仓库克隆出新的仓库，也可以把一个已有的本地仓库与之关联，然后，把本地仓库的内容推送到GitHub仓库。
 
@@ -449,11 +449,11 @@ Import code
 
 首先，登陆GitHub，创建一个新的仓库，名字叫`gitskills`：
 
-![github-init-repo](https://www.liaoxuefeng.com/files/attachments/919021808263616/0)
+![github-init-repo](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272157340.png)
 
 我们勾选`Initialize this repository with a README`，这样GitHub会自动为我们创建一个`README.md`文件。创建完毕后，可以看到`README.md`文件：
 
-![github-init-repo-2](https://www.liaoxuefeng.com/files/attachments/919021836828288/0)
+![github-init-repo-2](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272157040.png)
 
 现在，远程库已经准备好了，下一步是用命令`git clone`克隆一个本地库：
 
@@ -477,7 +477,7 @@ README.md
 
 如果两个平行宇宙互不干扰，那对现在的你也没啥影响。不过，在某个时间点，两个平行宇宙合并了，结果，你既学会了Git又学会了SVN！
 
-![learn-branches](https://www.liaoxuefeng.com/files/attachments/919021987875136/0)
+![learn-branches](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272157309.png)
 
 分支在实际中有什么用呢？假设你准备开发一个新功能，但是需要两周才能完成，第一周你写了50%的代码，如果立刻提交，由于代码还没写完，不完整的代码库会导致别人不能干活了。如果等代码全部写完再一次提交，又存在丢失每天进度的巨大风险。
 
@@ -640,7 +640,7 @@ Switched to branch 'master'
 
 切换回`master`分支后，再查看一个`readme.txt`文件，刚才添加的内容不见了！因为那个提交是在`dev`分支上，而`master`分支此刻的提交点并没有变：
 
-![git-br-on-master](https://www.liaoxuefeng.com/files/attachments/919022533080576/0)
+![git-br-on-master](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272157338.png)
 
 ## 合并分支——快进合并
 
@@ -926,7 +926,7 @@ $ git log --graph --pretty=oneline --abbrev-commit
 
 可以看到，不使用`Fast forward`模式，merge后就像这样：
 
-![git-no-ff-mode](https://www.liaoxuefeng.com/files/attachments/919023225142304/0)
+![git-no-ff-mode](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272157086.png)
 
 
 
@@ -942,7 +942,7 @@ $ git log --graph --pretty=oneline --abbrev-commit
 
 所以，团队合作的分支看起来就像这样：
 
-![git-br-policy](https://www.liaoxuefeng.com/files/attachments/919023260793600/0)
+![git-br-policy](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272157780.png)
 
 ### 小结
 
@@ -1406,7 +1406,7 @@ $ git log --graph --pretty=oneline --abbrev-commit
 
 Git有一种称为rebase的操作，有人把它翻译成“变基”。
 
-![rebase](https://www.liaoxuefeng.com/files/attachments/1216294032394112/l)
+![rebase](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272157003.jpeg)
 
 先不要随意展开想象。我们还是从实际问题出发，看看怎么把分叉的提交变成直线。
 
@@ -1799,17 +1799,17 @@ Gitee企业版正在优惠中：
 
 使用Gitee和使用GitHub类似，我们在Gitee上注册账号并登录后，需要先上传自己的SSH公钥。选择右上角用户头像 -> 菜单“修改资料”，然后选择“SSH公钥”，填写一个便于识别的标题，然后把用户主目录下的`.ssh/id_rsa.pub`文件的内容粘贴进去：
 
-![gitee-add-ssh-key](https://www.liaoxuefeng.com/files/attachments/1163452910422880/l)
+![gitee-add-ssh-key](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272158650.jpeg)
 
 点击“确定”即可完成并看到刚才添加的Key：
 
-![gitee-key](https://www.liaoxuefeng.com/files/attachments/1163453163108928/l)
+![gitee-key](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272158177.jpeg)
 
 如果我们已经有了一个本地的git仓库（例如，一个名为learngit的本地库），如何把它关联到Gitee的远程库上呢？
 
 首先，我们在Gitee上创建一个新的项目，选择右上角用户头像 -> 菜单“控制面板”，然后点击“创建项目”：
 
-![gitee-new-repo](https://www.liaoxuefeng.com/files/attachments/1163453517527296/l)
+![gitee-new-repo](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272158799.jpeg)
 
 项目名称最好与本地库保持一致：
 
@@ -1980,7 +1980,7 @@ $ git config --global color.ui true
 
 这样，Git会适当地显示不同的颜色，比如`git status`命令：
 
-![git-color](https://www.liaoxuefeng.com/files/attachments/919059629641312/0)
+![git-color](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272158327.png)
 
 文件名就会标上颜色。
 
@@ -2177,7 +2177,7 @@ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Crese
 
 来看看`git lg`的效果：
 
-![git-lg](https://www.liaoxuefeng.com/files/attachments/919059728302912/0)
+![git-lg](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272156590.png)
 
 为什么不早点告诉我？别激动，咱不是为了多记几个英文单词嘛！
 
@@ -2328,7 +2328,7 @@ Git有很多图形界面工具，这里我们推荐[SourceTree](https://www.sour
 
 第一次运行SourceTree时，SourceTree并不知道我们的Git库在哪。如果本地已经有了Git库，直接从资源管理器把文件夹拖拽到SourceTree上，就添加了一个本地Git库：
 
-![add-local-repo](https://www.liaoxuefeng.com/files/attachments/1317162822139970/l)
+![add-local-repo](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272155447.jpeg)
 
 也可以选择“New”-“Clone from URL”直接从远程克隆到本地。
 
@@ -2336,15 +2336,15 @@ Git有很多图形界面工具，这里我们推荐[SourceTree](https://www.sour
 
 我们双击`learngit`这个本地库，SourceTree会打开另一个窗口，展示这个Git库的当前所有分支以及文件状态。选择左侧面板的“WORKSPACE”-“File status”，右侧会列出当前已修改的文件（Unstaged files）：
 
-![unstaged](https://www.liaoxuefeng.com/files/attachments/1317163279319106/l)
+![unstaged](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272155801.png)
 
 选中某个文件，该文件就自动添加到“Staged files”，实际上是执行了`git add README.md`命令：
 
-![add](https://www.liaoxuefeng.com/files/attachments/1317163629543489/l)
+![add](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272155117.png)
 
 然后，我们在下方输入Commit描述，点击“Commit”，就完成了一个本地提交：
 
-![commit](https://www.liaoxuefeng.com/files/attachments/1317163717623874/l)
+![commit](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272155487.png)
 
 实际上是执行了`git commit -m "update README.md"`命令。
 
@@ -2354,11 +2354,11 @@ Git有很多图形界面工具，这里我们推荐[SourceTree](https://www.sour
 
 在左侧面板的“BRANCHES”下，列出了当前本地库的所有分支。当前分支会加粗并用○标记。要切换分支，我们只需要选择该分支，例如`master`，然后点击右键，在弹出菜单中选择“Checkout master”，实际上是执行命令`git checkout master`：
 
-![checkout](https://www.liaoxuefeng.com/files/attachments/1317164906709058/l)
+![checkout](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272155658.png)
 
 要合并分支，同样选择待合并分支，例如`dev`，然后点击右键，在弹出菜单中选择“Merge dev into master”，实际上是执行命令`git merge dev`：
 
-![merge-dev-into-master](https://www.liaoxuefeng.com/files/attachments/1317165154172993/l)
+![merge-dev-into-master](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272155248.png)
 
 ## 推送
 
@@ -2366,10 +2366,199 @@ Git有很多图形界面工具，这里我们推荐[SourceTree](https://www.sour
 
 注意到使用SourceTree时，我们只是省下了敲命令的麻烦，SourceTree本身还是通过Git命令来执行任何操作。如果操作失败，SourceTree会自动显示执行的Git命令以及错误信息，我们可以通过Git返回的错误信息知道出错的原因：
 
-![push-error](https://www.liaoxuefeng.com/files/attachments/1317166563459138/l)
+![push-error](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272155076.png)
 
 ## 小结
 
 使用SourceTree可以以图形界面操作Git，省去了敲命令的过程，对于常用的提交、分支、推送等操作来说非常方便。
 
 SourceTree使用Git命令执行操作，出错时，仍然需要阅读Git命令返回的错误信息。
+
+
+
+## 同时将代码备份到Gitee和GitHub
+
+如何将GitHub项目一步导入Gitee
+如何保持Gitee和GitHub同步更新
+
+## 如何将GitHub项目一步导入Gitee
+
+### 方法一：
+
+登陆 Gitee 账号，点击右上角的 + 号，点击「从 GitHub 导入项目」，在跳转的页面中授权 Gitee 访问。
+![img](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272155902.png)
+
+然后选择性的从GitHub中导入
+![img](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272155149.png)
+
+### 方法二：
+
+在创建项目的时候，选择导入已有项目。
+
+如果是私有项目将会需要输入 GitHub 的账号信息。
+
+## 如何保持Gitee和GitHub同步更新
+
+### 方式一: 使用Gitee的强制同步
+
+![img](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272155931.png)
+
+我还是只用维护 github 那份源码, gitee 这边没忘记的话, 手搓点击下强制同步按钮即可。
+
+但是容易忘记, 造成两边不完全同步。
+
+切记，只有从GitHub上导入的仓库才有强制同步的按钮
+
+### 方式二: 手搓 push 多次
+
+那么不外乎就是配置多个远程库地址, 多次推送咯, 那么我们先来看看现有远程库的情况（以:WhiteHole
+
+```bash
+$ git remote --verbose
+origin  https://gitee.com/BlackThompson/white-hole.git (fetch)
+origin  https://gitee.com/BlackThompson/white-hole.git (push)
+```
+
+可以看到目前仅有 https://gitee.com/BlackThompson/white-hole.git 这个远程库地址.
+
+我们来加一个 gitee 的远程地址, 首先在 gitee 建好同步仓库, 然后我们在本地添加一个新的远程库地址:
+
+```bash
+$ git remote add githuborigin https://github.com/BlackThompson/WhiteHole
+```
+
+添加完成后我们查看一下:
+
+```bash
+$ git remote --verbose
+githuborigin    https://github.com/BlackThompson/WhiteHole (fetch)
+githuborigin    https://github.com/BlackThompson/WhiteHole (push)
+origin  https://gitee.com/BlackThompson/white-hole.git (fetch)
+origin  https://gitee.com/BlackThompson/white-hole.git (push)
+```
+
+可以查看到以下2个远程库地址:
+
+githuborigin: 是我们新加的 github 的远程库地址
+origin: 是我们之前在 gitee 的远程库地址
+接下来同步:
+
+```bash
+git add .
+git commit -m "add gitee"
+git push -u origin master
+git push -u githuborigin master
+```
+
+比之前多个一次 git push 操作…其他和之前没有太大区别…没有更多的心智负担.
+
+但是经常容易忘记…
+
+方式三: 最多跑一次
+不想着法偷懒的 coder 不是好程序员, 秉承 “最多跑一次” 的理念, 让我们试试怎么一次 push 统统搞定.
+
+在本地 git 仓库里找到这个文件 .git/config, 内容如下:
+![img](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272155919.png)
+
+```bash
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = https://gitee.com/BlackThompson/white-hole.git	
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+[gui]
+	wmstate = normal
+	geometry = 1205x669+38+38 276 304
+[remote "githuborigin"]
+	url = https://github.com/BlackThompson/WhiteHole
+	fetch = +refs/heads/*:refs/remotes/githuborigin/*
+```
+
+改为如下:
+
+合并2个 remote 配置
+
+```bash
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = https://github.com/BlackThompson/WhiteHole
+	url = https://gitee.com/BlackThompson/white-hole.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+```
+
+上面这个手动配置是为了更好的说明而已, 其实可以用以下命令简化操作, 在 origin 节点下补充了一个新的远程地址.
+
+```bash
+$ git remote set-url --add origin https://github.com/BlackThompson/WhiteHole
+```
+
+看看补充后的远程地址情况
+
+```bash
+$ git remote --verbose
+origin  https://gitee.com/BlackThompson/white-hole.git (fetch)
+origin  https://gitee.com/BlackThompson/white-hole.git (push)
+origin  https://github.com/BlackThompson/WhiteHole (push)
+```
+
+注意看后面的 (fetch)(push), 相信你会明白点什么.
+
+然后我们可以继续这样使用来实现 github & gitee 的同步推送和分发:
+
+```bash
+git add .
+git commit -m "github & gitee 同步推送和分发"
+git push origin master
+```
+
+可以看到, 使用上和最初没有任何区别, 只是多配置了一次, 算是实现了 “最多配(跑)一次”.
+
+方式四：命令行把GitHub上的代码拉取导入Gitee
+如果是本地仓库，只在需要命令行添加用不同名称标识的 Gitee 和 Github 远程库。
+
+git remote add 远程库名 远程库地址
+![img](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202304272155911.png)
+
+具体方法操作如下：
+
+1、首先通过 git remote -v 查看您要同步的仓库的远程库列表，如果在列表中没有您码云的远程库地址，您需要新增一个地址
+
+>   git remote add 远程库名 远程库地址
+>   eg: git remote add gitee git@github.com:xxx/xxx.git
+
+>   如果在 add 的时候出现error: Could not remove config section ‘remote.xxx’.一类的错误，通过把仓库下.git/config 文件里面的 [remote “xxx”] 删掉或者是用别的远程库名即可。
+
+2、从GitHub上拉取最新代码到本地
+
+>   git pull 远程库名 分支名
+>   eg：git pull origin master
+
+3、推送本地最新代码到码云上
+
+>   git push 远程库名 分支名
+>   eg：git push gitee master
+
+如果出现有差异的话需要自己手动解决差异
+
+参考文章：
+
+[如何将 GitHub 项目导入码云？一步搞定！](https://blog.gitee.com/2018/06/05/github_to_gitee/)
+
+[如何同步多个 git 远程仓库](https://www.cnblogs.com/taadis/p/12170953.html)
