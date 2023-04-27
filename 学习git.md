@@ -2520,11 +2520,11 @@ origin  https://github.com/BlackThompson/WhiteHole (push)
 # 以后约定这样
 giteeorigin     https://gitee.com/jzdxdd/gitskills.git (fetch)
 giteeorigin     https://gitee.com/jzdxdd/gitskills.git (push)
-githuborigin    https://gitee.com/jzdxdd/gitskills.git (fetch)
-githuborigin    https://gitee.com/jzdxdd/gitskills.git (push)
+githuborigin    https://github.com/perfectddt/gitskills.git (fetch)
+githuborigin    https://github.com/perfectddt/gitskills.git (push)
 origin  https://gitee.com/jzdxdd/gitskills.git (fetch)
 origin  https://gitee.com/jzdxdd/gitskills.git (push)
-origin  https://gitee.com/jzdxdd/gitskills.git (push)
+origin  https://github.com/perfectddt/gitskills.git (push)
 ```
 
 注意看后面的 (fetch)(push), 相信你会明白点什么.
