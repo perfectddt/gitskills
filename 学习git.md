@@ -1561,6 +1561,7 @@ $ git log --graph --pretty=oneline --abbrev-commit
 ### 小结
 
 - rebase操作可以把本地未push的分叉提交历史整理成直线；
+- git pull --rebase origin master
 - rebase的目的是使得我们在查看历史提交的变化时更容易，因为分叉的提交需要三方对比。
 
 # 标签管理
