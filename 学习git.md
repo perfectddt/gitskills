@@ -415,7 +415,7 @@ Branch 'master' set up to track remote branch 'master' from 'origin'.
 
 Get started by [creating a new file](https://github.com/perfectddt/gitlearn/new/main) or [uploading an existing file](https://github.com/perfectddt/gitlearn/upload). We recommend every repository include a [README](https://github.com/perfectddt/gitlearn/new/main?readme=1), [LICENSE](https://github.com/perfectddt/gitlearn/new/main?filename=LICENSE.md), and [.gitignore](https://github.com/perfectddt/gitlearn/new/main?filename=.gitignore).
 
-#### …or create a new repository on the command line
+…or create a new repository on the command line
 
 ```shell
 echo "# gitlearn" >> README.md
@@ -427,7 +427,7 @@ git remote add origin https://github.com/perfectddt/gitlearn.git
 git push -u origin main
 ```
 
-#### …or push an existing repository from the command line
+…or push an existing repository from the command line
 
 ```shell
 git remote add origin https://github.com/perfectddt/gitlearn.git
@@ -435,14 +435,85 @@ git branch -M main
 git push -u origin main
 ```
 
-#### …or import code from another repository
+ …or import code from another repository
 
 You can initialize this repository with code from a Subversion, Mercurial, or TFS project.
 
-#### or import code from another repository
+or import code from another repository
 ```shell
 Import code
 ```
+
+### git push常见问题
+
+#### 1、本地创建空的文件夹无法同步到仓库
+
+需要注意的是：如果新增了一个空的文件夹，那么Git是检测不到的，需要我们在文件夹中随便创建一个文件，然后使用git status能够检测到变化，这个时候再一次去执行git add -A；git commit -m “提交的备注信息”；git push。
+
+git pull命令是将远程仓库中的更改同步更新到本地仓库。
+
+#### 2、git push报错：failed to push some refs to
+
+当我们在github版本库中发现一个问题后，你在github上对它进行了**在线的修改**；或者你直接在github上的某个库中添加readme文件或者其他什么文件，但是没有对本地库进行同步。这个时候当你再次有commit想要从本地库提交到远程的github库中时就会出现push失败的问题。
+
+如下图所示
+我在github库中对某个文件进行了在线的编辑，并且没有同步到本地库，之后我在本地库添加了文件test.txt，并想提交到github，出现以下错误：error：failed to push some refs to。
+
+![9d847ea401b6583da4bffd92b3b6fead_d772763f47404bae8a44d96613b74eea](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202305141133172.png)
+
+原因：远程库与本地库不一致造成的，那么我们把远程库同步到本地库就可以了。
+解决方案：
+
+```bash
+git pull --rebase origin master
+```
+
+这条指令的意思是把远程库中的更新合并到本地库中，–rebase的作用是取消掉本地库中刚刚的commit，并把他们接到更新后的版本库之中。
+
+![ac66def692d01923ad2d869590c754bc_ab667699d88444c8abc1a5ac2f5c9176](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202305141134281.png)
+
+![d3b06efa1f851bb57769a3a5a342192a_1e87a2a6ae61441d8455d04326fa9fc5](https://jzdxdd.oss-cn-hangzhou.aliyuncs.com/img202305141134181.png)
+
+#### 3、报错：fatal: No configured push destination.
+
+```bash
+Master Zhang@DESKTOP-UC7N2QM MINGW64 /c/GitHub_test/language (master)
+$ git push
+fatal: No configured push destination.
+Either specify the URL from the command-line or configure a remote repository using
+git remote add <name> <url>
+and then push using the remote name
+git push <name>
+```
+
+
+原因：推送至远程仓库时，缺少目标仓库地址。
+
+解决方法：
+
+```bash
+1、添加远程仓库地址：
+ git remote add origin https://github.com/**/*.git
+2、 推送本地代码至远程仓库分支
+git push -u origin master
+```
+
+
+#### 4、error: src refspec master does not match any
+原因：目录中没有文件，空目录是不能提交上去的
+
+解决方案：
+
+```bash
+git add README 
+git commit -m 'first commit'
+git push origin master
+```
+
+
+————————————————
+版权声明：本文为CSDN博主「Bitup_bitwin」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/weixin_44259499/article/details/127714152
 
 ## 从远程库克隆git clone
 
@@ -2961,3 +3032,16 @@ git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch /src/CShar
 ## 本文小结
 
 我写作的话题，基本上可以分为两类：有计划的和无计划的。显然，这一篇属于后者，它就像育碧旗下的开放世界，当你漫游其中总会遇到那些令人意外的支线任务。我个人挺喜欢这种由点及面的认知模式，即从一个特定的问题逐步过渡到一个更为宽泛的知识或者体系上面。在这篇文章里，无法提交一个超过 100M 的大文件是表，不了解 [Git LFS](https://git-lfs.github.com/) 是里，更有趣的一点是，解决问题的过程通常是由“**果**”反推出“**因**”，而撰写博客的过程则是由“**因**”顺推出“**果**”。从这个角度来看的话，对读者“**揣着明白装糊涂**”这才是最难把握的一个分寸，平时写长文章总担心写不清楚，而写短文章则担心像流水账。对于 Git LFS 来说，Git 仓库存储的其实是一个[指针文件](https://github.com/git-lfs/git-lfs/wiki/Tutorial#lfs-pointer-files-advanced)，真正的内容则是存储在 LFS 服务器里，主流的代码托管平台如 Github、Gitlab 等都支持 Git LFS，我们只需要安装 Git LFS 的客户端扩展即可。当然，我对非文本文件的合并依然持悲观态度，想象一下，两个人同时修改了一个大文件，一个已经推送到远程，一个已经提交到本地，那么，当他们尝试合并代码的时候，又会发生什么事情呢？作为一名程序员，每天被安排排查和解决问题，简直是家常便饭，可解决问题会有尽头吗？我想，大概率是没有的罢！
+
+# git强制覆盖本地文件，使本地仓库和远端仓库保持一致
+
+## git强制覆盖本地目录
+git fetch 拉取所有更新，不同步；
+git reset --hard origin/master 本地代码同步线上最新版本(会覆盖本地所有与远程仓库上同名的文件)；
+git pull 再更新一次（其实也可以不用，第二步命令做过了其实）
+
+## 单条指令
+git fetch --all && git reset --hard origin/master && git pull git强制覆盖本地命令（单条执行）：
+————————————————
+版权声明：本文为CSDN博主「「已注销」」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/l546492845/article/details/126626975
