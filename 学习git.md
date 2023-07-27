@@ -3041,7 +3041,57 @@ git reset --hard origin/master 本地代码同步线上最新版本(会覆盖本
 git pull 再更新一次（其实也可以不用，第二步命令做过了其实）
 
 ## 单条指令
-git fetch --all && git reset --hard origin/master && git pull git强制覆盖本地命令（单条执行）：
+git fetch --all && git reset --hard origin/master && git pull 
+
+git强制覆盖本地命令（单条执行）：
 ————————————————
 版权声明：本文为CSDN博主「「已注销」」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
 原文链接：https://blog.csdn.net/l546492845/article/details/126626975
+
+# 嵌套git仓库
+
+## 错误信息
+
+warning: adding embedded git repository: lisp/everforest-theme hint: You've added another git repository inside your current repository. hint: Clones of the outer repository will not contain the contents of hint: the embedded repository and will not know how to obtain it. hint: If you meant to add a submodule, use: hint: hint:   git submodule add <url> lisp/everforest-theme hint: hint: If you added this path by mistake, you can remove it from the hint: index with: hint: hint:   git rm --cached lisp/everforest-theme hint: hint: See "git help submodule" for more information.
+
+## 处理方式
+
+这个警告信息是由Git提供的，它表示你在当前的Git仓库中添加了另一个Git仓库(`lisp/everforest-theme`)。这种情况可能会引起问题，因为外部仓库不会包含嵌套仓库的内容，当有人克隆外部仓库时，他们将无法自动获取嵌套仓库的内容。
+
+Git提供了两种方法来将另一个仓库包含在当前仓库中：作为"submodule"（子模块）或者"subtree"（子树）。警告建议，如果你打算将`lisp/everforest-theme`作为子模块添加，应该使用以下命令：
+
+```
+git submodule add <url> lisp/everforest-theme
+```
+
+把`<url>`替换为你想添加的仓库的URL。
+
+如果你并不打算将`lisp/everforest-theme`作为独立的仓库，而是想把它从索引中移除，可以使用以下命令：
+
+```
+git rm --cached lisp/everforest-theme
+```
+
+这将从索引中移除`lisp/everforest-theme`的条目，实际上撤销了对嵌套仓库的添加。
+
+如果想了解更多关于子模块以及它们的工作原理，你可以运行以下命令查看Git文档中关于子模块的内容：
+
+```
+git help submodule
+```
+
+根据你的项目需求，确保仔细考虑是否要使用子模块或其他机制。
+
+# 常见错误
+
+## fatal:detected dubious ownership in repository
+
+1、今天在学习git的时候出现这个错误：
+
+![img](C:/Users/Administrator/Desktop/gitskills/%E5%AD%A6%E4%B9%A0git.assets/cd67d8e7c2334fb386517e9a5aed3c13.png)
+
+2、执行下面代码即可：
+
+>   git config --global --add safe.directory "*";
+
+![img](C:/Users/Administrator/Desktop/gitskills/%E5%AD%A6%E4%B9%A0git.assets/18837bd578e64e7c88e3060bb2bb65ad.png)
