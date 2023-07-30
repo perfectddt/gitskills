@@ -3050,11 +3050,17 @@ git强制覆盖本地命令（单条执行）：
 
 # 嵌套git仓库
 
-## 错误信息
+https://www.cnblogs.com/ramlife/p/16981972.htmlgit嵌套仓库的内容
 
-warning: adding embedded git repository: lisp/everforest-theme hint: You've added another git repository inside your current repository. hint: Clones of the outer repository will not contain the contents of hint: the embedded repository and will not know how to obtain it. hint: If you meant to add a submodule, use: hint: hint:   git submodule add <url> lisp/everforest-theme hint: hint: If you added this path by mistake, you can remove it from the hint: index with: hint: hint:   git rm --cached lisp/everforest-theme hint: hint: See "git help submodule" for more information.
+## 在仓库 A 中引入仓库 B
 
-## 处理方式
+```mipsasm
+git submodule add git@xxx.B.git
+```
+
+在仓库 A 中除了增加仓库 B 之外，还会增加 `.gitmodules`
+
+### 其他添加的处理方式
 
 这个警告信息是由Git提供的，它表示你在当前的Git仓库中添加了另一个Git仓库(`lisp/everforest-theme`)。这种情况可能会引起问题，因为外部仓库不会包含嵌套仓库的内容，当有人克隆外部仓库时，他们将无法自动获取嵌套仓库的内容。
 
@@ -3080,7 +3086,64 @@ git rm --cached lisp/everforest-theme
 git help submodule
 ```
 
-根据你的项目需求，确保仔细考虑是否要使用子模块或其他机制。
+根据你的项目需求，确保仔细考虑是否要使用子模块或其他机制
+
+##  其他 PC pull 项目
+
+除了需要把仓库 A pull 下来之后，还需要把 B 给拉下来
+
+### 初次
+
+```css
+git submodule update --init --recursive
+```
+
+### 更新
+
+```css
+git pull --recurse-submodules
+git submodule foreach --recursive git pull origin master
+git submodule foreach --recursive git pull
+```
+
+### 参考:
+
+Update Git submodule to latest commit on origin
+https://stackoverflow.com/questions/5828324/update-git-submodule-to-latest-commit-on-origin
+
+## 子仓库修改服务器地址
+
+在 `.gitmodules` 中修改之后，还需要 `git submodule sync` 才能把改动同步到 `.git/config` 中去。
+
+## 删除子模块
+
+-   删除子模块的文件 `git submodule deinit {MOD_NAME}` 其中{MOD_NAME}为模块目录，执行后可发现模块目录被清空
+-   `git rm --cached {MOD_NAME}` 删除.gitmodules中记录的模块信息（--cached选项清除.git/modules中的缓存）
+-   修改 `.gitmodules`，把其中的 mod 给删除掉，并且 `rm -rf` mod 所在的空文件夹。
+-   提交更改到代码库，可观察到 `.gitmodules` 内容发生变更 `git commit -am "Remove a submodule."`
+
+## 参考:
+
+如何解决 Git 仓库嵌套问题
+http://jartto.wang/2017/12/28/cannot-nest-git-repository/
+
+嵌套git仓库
+https://blog.csdn.net/qq_41535611/article/details/118331168
+
+[Git] 如何优雅的删除子模块(submodule)或修改Submodule URL
+https://www.jianshu.com/p/ed0cb6c75e25
+
+git拉取子模块
+https://blog.csdn.net/toopoo/article/details/104225592
+
+拉取最新的 Git 子模块
+https://www.delftstack.com/zh/howto/git/git-pull-submodule/
+
+
+
+## 错误信息
+
+warning: adding embedded git repository: lisp/everforest-theme hint: You've added another git repository inside your current repository. hint: Clones of the outer repository will not contain the contents of hint: the embedded repository and will not know how to obtain it. hint: If you meant to add a submodule, use: hint: hint:   git submodule add <url> lisp/everforest-theme hint: hint: If you added this path by mistake, you can remove it from the hint: index with: hint: hint:   git rm --cached lisp/everforest-theme hint: hint: See "git help submodule" for more information.
 
 # 常见错误
 
