@@ -1635,6 +1635,66 @@ $ git log --graph --pretty=oneline --abbrev-commit
 - git pull --rebase origin master
 - rebase的目的是使得我们在查看历史提交的变化时更容易，因为分叉的提交需要三方对比。
 
+### 跳过（删除）节点
+
+```shell
+PS C:\Users\Administrator\.spacemacs.d> git log --graph --pretty=oneline --abbrev-commit
+* 0656002 (HEAD -> master) 替换 default-directory成 my-default-directory
+* 00a9ebe 替换 default-directory成 my-default-directory
+* 7008899 替换 default-directory成 my-default-directory
+* 19df6b4 ~的expand会在wsl里出错,上一版本可以在linux里使用，替换~成 default-directory
+```
+
+
+
+如果你想要从git log输出中删除特定的提交，你可以使用git rebase命令。以下是一个示例步骤：
+
+1. 首先，确保你在正确的分支上工作（在这种情况下是master分支）。运行以下命令切换到master分支：
+
+   ```bash
+   git checkout master
+   ```
+
+2. 然后，运行以下命令来开始交互式的rebase过程：
+
+   ```bash
+   git rebase -i HEAD~4
+   ```
+
+   这里的`4`表示你想要修改的提交数量。根据你的示例，你想要删除最后两个提交，所以这里使用了`4`。
+
+3. 这将打开一个文本编辑器，显示了最近的4个提交。在编辑器中，将需要删除的提交行前面的`pick`改为`drop`。在你的例子中，将以下两行更改为`drop`：
+
+   ```
+   pick 00a9ebe 替换 default-directory成 my-default-directory
+   pick 7008899 替换 default-directory成 my-default-directory
+   ```
+
+   修改后的内容应该是：
+
+   ```
+   drop 00a9ebe 替换 default-directory成 my-default-directory
+   drop 7008899 替换 default-directory成 my-default-directory
+   ```
+
+4. 保存并关闭编辑器。Git将应用你的更改，并删除指定的提交。
+
+    ```shell
+    PS C:\Users\Administrator\.spacemacs.d> git add .\init.el
+    PS C:\Users\Administrator\.spacemacs.d> git rebase --continue
+    ```
+
+请注意，这将修改历史记录，如果你已经将这些提交推送到远程仓库，你需要小心处理。如果你不确定如何处理远程仓库中的更改，请咨询你的团队或Git管理员的建议。
+
+完成这些步骤后，你将得到以下输出：
+
+```
+* 0656002 (HEAD -> master) 替换 default-directory成 my-default-directory
+* 19df6b4 ~的expand会在wsl里出错,上一版本可以在linux里使用，替换~成 default-directory
+```
+
+这样，你就删除了指定的提交，并得到了所需的格式。
+
 # 标签管理
 
 发布一个版本时，我们通常先在版本库中打一个标签（tag），这样，就唯一确定了打标签时刻的版本。将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。所以，标签也是版本库的一个快照。
@@ -2648,6 +2708,50 @@ git remote add 远程库名 远程库地址
 
 [如何同步多个 git 远程仓库](https://www.cnblogs.com/taadis/p/12170953.html)
 
+## ssh 的提交方式
+
+要设置SSH身份验证，你需要按照以下步骤生成SSH密钥对并将公钥添加到你的GitHub账户：
+
+1. 打开终端或命令行界面。
+
+2. 输入以下命令来生成SSH密钥对：
+```
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+```
+确保将`your_email@example.com`替换为你在GitHub账户中使用的电子邮件地址。
+
+3. 系统会提示你选择密钥的保存位置和设置一个密码（可选）。按需求进行选择。
+
+4. 生成密钥对后，输入以下命令来启动SSH代理：
+```
+eval "$(ssh-agent -s)"
+```
+
+5. 将生成的私钥添加到SSH代理中，输入以下命令：
+```
+ssh-add ~/.ssh/id_rsa
+```
+如果你设置了密码，需要输入密码来解锁私钥。
+
+6. 使用以下命令打开公钥文件，并将公钥内容复制到剪贴板中：
+```
+cat ~/.ssh/id_rsa.pub
+```
+
+7. 登录到GitHub账户，点击右上角的头像，选择"Settings"（设置）。
+
+8. 在左侧菜单中，点击"SSH and GPG keys"（SSH和GPG密钥）。
+
+9. 点击"New SSH key"（新建SSH密钥）。
+
+10. 在"Title"（标题）字段中，为你的密钥提供一个描述性的名称。
+
+11. 将之前复制的公钥粘贴到"Key"（密钥）字段中。
+
+12. 点击"Add SSH key"（添加SSH密钥）。
+
+现在，你已经成功将SSH公钥添加到你的GitHub账户中。你可以使用SSH URL来克隆和与GitHub上的仓库进行交互。
+
 # Git 删除某一次提交
 
 ## 一、 git reset
@@ -3044,6 +3148,9 @@ git pull 再更新一次（其实也可以不用，第二步命令做过了其�
 git fetch --all && git reset --hard origin/master && git pull 
 
 git强制覆盖本地命令（单条执行）：
+
+ git pull githuborigin master
+
 ————————————————
 版权声明：本文为CSDN博主「「已注销」」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
 原文链接：https://blog.csdn.net/l546492845/article/details/126626975
@@ -3054,7 +3161,7 @@ https://www.cnblogs.com/ramlife/p/16981972.htmlgit嵌套仓库的内容
 
 ## 在仓库 A 中引入仓库 B
 
-```mipsasm
+```shell
 git submodule add git@xxx.B.git
 ```
 
@@ -3066,7 +3173,7 @@ git submodule add git@xxx.B.git
 
 Git提供了两种方法来将另一个仓库包含在当前仓库中：作为"submodule"（子模块）或者"subtree"（子树）。警告建议，如果你打算将`lisp/everforest-theme`作为子模块添加，应该使用以下命令：
 
-```
+```shell
 git submodule add <url> lisp/everforest-theme
 ```
 
@@ -3074,7 +3181,7 @@ git submodule add <url> lisp/everforest-theme
 
 如果你并不打算将`lisp/everforest-theme`作为独立的仓库，而是想把它从索引中移除，可以使用以下命令：
 
-```
+```shell
 git rm --cached lisp/everforest-theme
 ```
 
@@ -3082,7 +3189,7 @@ git rm --cached lisp/everforest-theme
 
 如果想了解更多关于子模块以及它们的工作原理，你可以运行以下命令查看Git文档中关于子模块的内容：
 
-```
+```shell
 git help submodule
 ```
 
@@ -3094,13 +3201,13 @@ git help submodule
 
 ### 初次
 
-```css
+```shell
 git submodule update --init --recursive
 ```
 
 ### 更新
 
-```css
+```cmd
 git pull --recurse-submodules
 git submodule foreach --recursive git pull origin master
 git submodule foreach --recursive git pull
