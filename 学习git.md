@@ -338,6 +338,24 @@ $ git commit -m "remove test.txt"
 
 # 远程仓库
 
+## 新的github远程token配置
+
+This is how I solved, step by step
+
+1. Click on your Profile Icon (top-right on Github website)
+2. Settings
+3. Developer settings (bottom-left)
+4. Personal access tokens
+5. fine-grained tokens
+6. "Generate new token"
+7. Write a Token name
+8. Pick an expiration date from the menu or a custom one
+9. Repository access> All repositories
+10. Open "Repository permissions" menu
+11. Look for the "Contents" row
+12. From the menu at right select "Access> Read and Write"
+13. "Generate token" (bottom-left)
+
 ## github的ssh配置
 
 第1步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有`id_rsa`和`id_rsa.pub`这两个文件，如果已经有了，可直接跳到下一步。如果没有，打开Shell（Windows下打开Git Bash），创建SSH Key：
@@ -2960,3 +2978,28 @@ git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch /src/CShar
 ## 本文小结
 
 我写作的话题，基本上可以分为两类：有计划的和无计划的。显然，这一篇属于后者，它就像育碧旗下的开放世界，当你漫游其中总会遇到那些令人意外的支线任务。我个人挺喜欢这种由点及面的认知模式，即从一个特定的问题逐步过渡到一个更为宽泛的知识或者体系上面。在这篇文章里，无法提交一个超过 100M 的大文件是表，不了解 [Git LFS](https://git-lfs.github.com/) 是里，更有趣的一点是，解决问题的过程通常是由“**果**”反推出“**因**”，而撰写博客的过程则是由“**因**”顺推出“**果**”。从这个角度来看的话，对读者“**揣着明白装糊涂**”这才是最难把握的一个分寸，平时写长文章总担心写不清楚，而写短文章则担心像流水账。对于 Git LFS 来说，Git 仓库存储的其实是一个[指针文件](https://github.com/git-lfs/git-lfs/wiki/Tutorial#lfs-pointer-files-advanced)，真正的内容则是存储在 LFS 服务器里，主流的代码托管平台如 Github、Gitlab 等都支持 Git LFS，我们只需要安装 Git LFS 的客户端扩展即可。当然，我对非文本文件的合并依然持悲观态度，想象一下，两个人同时修改了一个大文件，一个已经推送到远程，一个已经提交到本地，那么，当他们尝试合并代码的时候，又会发生什么事情呢？作为一名程序员，每天被安排排查和解决问题，简直是家常便饭，可解决问题会有尽头吗？我想，大概率是没有的罢！
+
+# 错误
+
+## Connection was reset
+
+这个错误信息 "fatal: unable to access 'https://github.com/perfectddt/.spacemacs.d.git/': Recv failure: Connection was reset" 表示在尝试将更改推送到 GitHub 远程仓库时出现了网络连接问题。
+
+以下是一些可能的解决步骤：
+
+1. 检查网络连接：确保你的网络连接稳定，并且可以正常访问其他网站或服务。
+
+2. 重试推送命令：有时连接问题可能是暂时的。尝试再次运行 `git push` 命令，看看问题是否仍然存在。
+
+3. 验证远程仓库 URL：仔细检查远程仓库的 URL，确保它是正确的。同时确保你具有推送到该仓库的必要权限。
+
+4. 检查防火墙或代理设置：如果你在防火墙后面或使用代理服务器，请确保它们正确配置，允许连接到 GitHub。
+
+5. 尝试使用 SSH 而不是 HTTPS：如果你已经在 GitHub 上设置了 SSH 认证，可以尝试使用 SSH URL 替代 HTTPS URL 作为远程仓库的 URL。你可以使用以下命令更新远程 URL：
+   ```
+   git remote set-url origin git@github.com:perfectddt/.spacemacs.d.git
+   ```
+
+6. 联系 GitHub 支持：如果以上步骤都无法解决问题，你可以联系 GitHub 支持寻求进一步的帮助。他们可以帮助你诊断和解决潜在的问题。
+
+请根据你的具体情况和仓库配置来适应这些步骤。
