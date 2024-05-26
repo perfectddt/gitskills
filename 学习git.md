@@ -50,6 +50,66 @@ $ git commit -m "add 3 files."
 
 # 时光穿梭
 
+## 强制覆盖
+
+在使用Git时，有时候我们需要覆盖本地的更改，这可能是因为我们想要撤销所有未提交的修改，或者想要将本地的代码库状态重置为远程仓库的状态。这里会介绍几种常见的覆盖本地更改的方法：
+
+### 1. 放弃本地所有未提交的更改
+
+如果你想要放弃本地所有未提交的更改（包括暂存区和工作目录的更改），可以使用以下命令：
+
+```bash
+git reset --hard
+```
+
+这会将你的工作目录和暂存区重置为最近一次的commit状态。
+
+### 2. 撤销特定文件的修改
+
+如果只想要撤销对特定文件的修改，可以使用以下命令：
+
+```bash
+git checkout -- <file>
+```
+
+这会将指定的文件恢复到最后一次提交的状态。
+
+### 3. 使用远程分支覆盖本地分支
+
+如果你想要将本地分支重置为远程分支的当前状态，可以使用以下步骤。这个操作会覆盖本地分支上的所有更改，因此在执行之前请确保你不需要保留这些更改。
+
+首先，切换到你想要覆盖的分支：
+
+```bash
+git checkout <branch-name>
+```
+
+然后，使用以下命令将本地分支重置为远程分支的状态：
+
+```bash
+git fetch origin
+git reset --hard origin/<branch-name>
+```
+
+这会将你的本地分支设置为远程分支的当前状态。
+
+### 4. 清理未跟踪的文件和目录
+
+如果你还想要移除那些未被git跟踪的文件和目录（比如，新添加的文件或目录），可以使用`clean`命令：
+
+```bash
+git clean -fd
+```
+
+这会删除所有未跟踪的文件和目录。
+
+### 注意事项
+
+- 在执行这些操作之前，请确保你没有需要保留的更改，因为这些操作都是不可逆的。
+- 如果你不确定，可以先使用`git stash`命令将更改存储起来，稍后再决定是否需要应用这些更改。
+
+以上就是覆盖Git本地更改的几种方法。在实际使用过程中，请根据自己的需求选择合适的方法，并在执行操作前确保数据的安全。
+
 ## 版本回退
 
 ### 仓库当前状态git status
@@ -339,6 +399,8 @@ $ git commit -m "remove test.txt"
 # 远程仓库
 
 ## 新的github远程token配置
+
+[github的token使用方法_github token-CSDN博客](https://blog.csdn.net/chengwenyang/article/details/120060010)
 
 This is how I solved, step by step
 
@@ -2593,6 +2655,150 @@ git remote add 远程库名 远程库地址
 [如何将 GitHub 项目导入码云？一步搞定！](https://blog.gitee.com/2018/06/05/github_to_gitee/)
 
 [如何同步多个 git 远程仓库](https://www.cnblogs.com/taadis/p/12170953.html)
+# 子模块
+## 添加子模块
+在Git中添加子模块是一个常见的操作，特别是当你想在你的项目中引用另一个仓库时。这可以帮助你管理外部依赖或者是共享代码。下面是如何添加子模块到你的Git仓库中的步骤：
+
+### 1. 添加子模块
+
+首先，确保你处于你想要添加子模块的Git仓库的根目录下。然后，使用以下命令来添加子模块：
+
+```bash
+git submodule add <repository-url> <path-to-submodule>
+```
+
+- `<repository-url>` 是子模块仓库的URL。
+- `<path-to-submodule>` 是你希望子模块在你的主仓库中所处的路径。
+
+例如，如果你想将一个名为`example-lib`的库作为子模块添加到`libs/example-lib`目录下，你可以这样做：
+
+```bash
+git submodule add https://github.com/username/example-lib.git libs/example-lib
+```
+
+这个命令会克隆`example-lib`到指定的路径，并且在你的主仓库中创建一个名为`.gitmodules`的文件，这个文件会跟踪你的子模块信息。
+
+### 2. 提交更改
+
+添加子模块后，你会发现有两个文件被修改了：
+- `.gitmodules` 文件，包含了子模块的配置信息。
+- 子模块路径下的内容，这实际上是一个指向子模块特定提交的引用。
+
+你需要提交这些更改到你的仓库中：
+
+```bash
+git add .
+git commit -m "Add example-lib submodule"
+```
+
+### 3. 克隆包含子模块的仓库
+
+当其他人（或者你自己在另一个环境）克隆包含子模块的仓库时，他们需要执行额外的步骤来初始化和更新子模块：
+
+```bash
+git clone <your-repository-url>
+cd <your-repository>
+git submodule update --init --recursive
+```
+
+这些命令克隆主仓库，初始化每一个子模块，并且递归地更新任何嵌套的子模块。
+
+### 结论
+
+通过以上步骤，你可以在你的Git仓库中添加子模块。记得在添加子模块后提交更改，以及告知使用你仓库的其他人关于初始化和更新子模块的正确步骤。子模块是管理复杂项目依赖的一个强大工具，但它也需要适当的管理来确保一切顺利。
+## 下载子模块
+当你使用`git pull`命令时，通常的期望是更新本地代码库中所有的更改，包括从远程仓库获取最新的提交。然而，如果你的项目中包含子模块（submodules），默认情况下`git pull`并不会自动更新这些子模块。子模块是一个独立的Git仓库，嵌入在你的主仓库中，用来管理外部库或者是项目的一部分。
+
+为了更新子模块，你需要采取额外的步骤。以下是一些方法来确保你的子模块也被更新：
+
+### 1. 手动更新子模块
+
+在执行`git pull`更新主仓库之后，你可以使用以下命令来更新子模块：
+
+```bash
+git submodule update --init --recursive
+```
+
+这个命令会初始化、更新项目中的每一个子模块，并且递归地检查是否有任何嵌套子模块，然后更新它们。
+
+### 2. 自动化更新子模块
+
+如果你希望`git pull`操作同时自动更新子模块，可以考虑配置Git以自动做这件事。可以通过设置`.gitconfig`文件来做到这一点：
+
+```bash
+git config --global submodule.recurse true
+```
+
+这个配置会让Git在执行`pull`、`checkout`和`clone`等命令时自动处理子模块。这意味着在未来，当你执行`git pull`时，Git也会尝试更新任何子模块。
+
+### 3. 使用`git clone`时自动初始化和更新子模块
+
+如果你是克隆一个包含子模块的仓库，可以在克隆时使用`--recurse-submodules`选项来自动初始化和更新子模块：
+
+```bash
+git clone --recurse-submodules <repository-url>
+```
+
+这样做可以确保你在克隆仓库时同时也获取了子模块的最新内容。
+
+### 结论
+
+在处理包含子模块的Git仓库时，记得子模块需要额外的命令来更新。你可以选择手动更新子模块，或者通过配置Git来自动化这一过程。这样可以确保你的子模块总是保持最新状态，与主仓库同步更新。
+
+## 删除子模块
+
+这个错误信息表示`lisp/org-krita`已经在Git索引中存在，这通常意味着你尝试添加的子模块路径已被Git跟踪，可能是由于之前的尝试、文件夹已存在或者其他原因。要解决这个问题，你可以按照以下步骤操作：
+
+### 1. 检查是否已经作为子模块添加
+
+首先，检查`.gitmodules`文件以确认是否`lisp/org-krita`已经被添加为子模块。如果是，`.gitmodules`文件会包含类似下面的条目：
+
+```ini
+[submodule "lisp/org-krita"]
+    path = lisp/org-krita
+    url = https://github.com/lepisma/org-krita.git
+```
+
+如果你发现了这样的条目，那么这个子模块已经被添加过了。
+
+### 2. 如果未添加为子模块，从索引中移除
+
+如果`lisp/org-krita`并没有作为子模块正确添加（即不在`.gitmodules`中），但由于某种原因已经存在于Git索引中，你需要先从索引中移除它：
+
+```bash
+git rm --cached lisp/org-krita
+```
+
+这个命令并不会删除物理文件，只是将其从Git索引中移除。
+
+### 3. 确认文件夹是否存在
+
+接下来，检查`lisp/org-krita`文件夹是否物理存在于你的文件系统中。如果存在，考虑是否里面有你需要保留的文件。如果确定里面的内容是你想要作为子模块的内容，或者你不介意覆盖它，你可以删除这个文件夹：
+
+```bash
+rm -rf lisp/org-krita
+```
+
+### 4. 重新添加子模块
+
+现在，你应该能够重新添加子模块而不会遇到错误：
+
+```bash
+git submodule add https://github.com/lepisma/org-krita.git lisp/org-krita
+```
+
+### 5. 提交更改
+
+最后，不要忘记提交这些更改到你的仓库：
+
+```bash
+git add .gitmodules lisp/org-krita
+git commit -m "Add org-krita as a submodule"
+```
+
+### 结论
+
+当你遇到“already exists in the index”的错误时，通常是因为Git已经跟踪了你想要作为子模块添加的路径。通过上述步骤，你可以解决这个问题，正确地添加子模块到你的项目中。
 
 # Git 删除某一次提交
 
