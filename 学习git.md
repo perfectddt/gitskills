@@ -220,10 +220,11 @@ HEAD is now at e475afc add distributed
 
 `--hard`参数有啥意义？这个后面再讲，现在你先放心使用。
 
-看看`readme.txt`的内容是不是版本`add distributed`：
+看看`readme.txt`的内容是不是版本`add distributed`：文本指令
 
 ```shell
 $ cat readme.txt
+
 Git is a distributed version control system.
 Git is free software.
 ```
@@ -682,8 +683,8 @@ Switched to a new branch 'dev'
 `git checkout`命令加上`-b`参数表示创建并切换，相当于以下两条命令：
 
 ```shell
-$ git branch dev
-$ git checkout dev
+$ git branch dev # 创建
+$ git checkout dev # 切换
 Switched to branch 'dev'
 ```
 
